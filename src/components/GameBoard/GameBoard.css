@@ -1,0 +1,23 @@
+.GameBoard {
+    background-image: url('../../styles/icons/list.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 350px;
+    height: 500px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 33px;
+}
+.GameBoard__moves {
+    margin-top: 20px;
+}
+.GameBoard__moves__text {
+    font-size: 24px;
+    margin-right: 10px;
+}
+.GameBoard__moves__count {
+    font-size: 28px;
+}

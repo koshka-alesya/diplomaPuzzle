@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'ReenieBeanie';
+  src: url('./styles/fonts/ReenieBeanie.ttf') format('ttf');
+}
+body {
+  font-family: 'ReenieBeanie', cursive;
+}
