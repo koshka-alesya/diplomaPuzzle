@@ -9,6 +9,7 @@ interface IGame {
     moves: number
     moveTile: Function
     endGame: boolean
+    game: any
 
 
 }
@@ -18,6 +19,7 @@ class App extends Component<any, IGame > {
         const game = new  Game(3);
         this.updateState = this.updateState.bind(this);
         this.state = {
+            game: game,
             moves: game.getMoves(),
             moveTile: game.moveTile,
             state: game.getState(),
@@ -28,8 +30,11 @@ class App extends Component<any, IGame > {
     // @ts-ignore
     componentDidUpdate(prevProps, prevState) {
         // @ts-ignore
-        if (this.state.state !== prevState.state) {
-           console.log('vlz');
+        if (this.state.game.getMoves() !== prevState.moves) {
+           this.setState({moves: this.state.game.getMoves()})
+        }
+        if (this.state.game.endGame !== prevState.endGame) {
+            this.setState({endGame: this.state.game.endGame})
         }
     }
     updateState(value: IGame) {
