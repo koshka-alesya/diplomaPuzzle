@@ -1,0 +1,9 @@
+.TilesList {
+    position: relative;
+    margin-top: 20px;
+    display: inline-block;
+    width: 360px;
+    height: 500px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #076566;
+}

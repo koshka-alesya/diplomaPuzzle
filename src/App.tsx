@@ -1,17 +1,28 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Game from './logic/Game';
 import GameBoard from "./components/GameBoard/GameBoard";
+import GameListState from "./components/GameListState/GameListState";
+interface IGame {
+    states: Array<Array<Array<number | string>>>
+    state: Array<Array<number | string>>
+    moves: number
+    moveTile: Function
+    endGame: boolean
 
-class App extends Component {
+
+}
+class App extends Component<any, IGame > {
     constructor(props: any) {
         super(props);
         const game = new  Game(3);
         this.updateState = this.updateState.bind(this);
         this.state = {
-            startGame: game,
-            state: game.getState()
+            moves: game.getMoves(),
+            moveTile: game.moveTile,
+            state: game.getState(),
+            states: game.states,
+            endGame: game.endGame
         }
     }
     // @ts-ignore
@@ -21,17 +32,19 @@ class App extends Component {
            console.log('vlz');
         }
     }
-    updateState(value: Array<Array<number | string>>) {
+    updateState(value: IGame) {
         this.setState(value);
     }
 
     render() {
         let gameState;
         // @ts-ignore
-        if (!this.state.startGame.endGame) {
+        if (!this.state.endGame) {
             gameState =
-                // @ts-ignore
-                <GameBoard dimension={3} state={this.state.state} moves={this.state.startGame.getMoves()} clickHandler={this.state.startGame.moveTile} updateState={this.updateState}/>
+                <div className="Game__main">
+                    <GameBoard dimension={3} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState}/>
+                    <GameListState dimension={3} states={this.state.states} />
+                </div>
         }
         else {
             gameState = <div>win</div>

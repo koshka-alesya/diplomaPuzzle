@@ -1,6 +1,7 @@
 // @ts-ignore
 class Game {
     constructor(dimension: number) {
+        this.states = [];
         this.createInitialTile(dimension);
         this.moveTile = this.moveTile.bind(this);
         this.endGame = false;
@@ -23,6 +24,7 @@ class Game {
     ];
     public endGame: boolean = false;
     protected moves:number = 0;
+    public states: Array<Array<Array<number | string>>> = [];
     public getMoves():number {
         return this.moves;
     }
@@ -55,6 +57,17 @@ class Game {
             i--;
         }
         this.moves = 0;
+        this.states = [];
+
+        this.states.push(this.arrayClone(this.state));
+    }
+
+    protected arrayClone(obj: any[]): any[]{
+        const res: any[] = [];
+        obj.forEach((array) => {
+            res.push([...array])
+        })
+        return res;
     }
 
     protected randomInteger(min: number, max: number): number {
@@ -74,7 +87,7 @@ class Game {
     public moveTile (dimension: number, tile: number | string): Array<Array<number | string>> {
         // проверяем, можем ли мы двигать плитку
         if (!this.canMoveTile(dimension, tile)) {
-            return this.getState();
+            return this.state;
         }
         const tileCoords = this.getCoordsTile(dimension, tile);
         this.state[this.indexXEmpty][this.indexYEmpty] = tile;
@@ -85,7 +98,8 @@ class Game {
         if (this.isEndGame(dimension)) {
             this.endGame = true;
         }
-        return this.getState();
+        this.states.push(this.arrayClone(this.state));
+        return this.state;
     }
 
 }

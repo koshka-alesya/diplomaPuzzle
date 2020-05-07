@@ -1,0 +1,20 @@
+.GameListState__Tile {
+    width: 40px;
+    height: 40px;
+    background: #90D6A2;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    position: absolute;
+    font-size:20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.GameListState__Tile__cactus {
+    background: url('../../../styles/icons/icon-cactus.png');
+    width: 41px;
+    height: 34px;
+    display: flex;
+    align-self: flex-end;
+}

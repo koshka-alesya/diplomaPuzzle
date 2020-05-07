@@ -21,3 +21,11 @@
 .GameBoard__moves__count {
     font-size: 28px;
 }
+.GameBoard__timer {
+    display: flex;
+}
+.GameBoard__timer__icon {
+    background-image: url('../../styles/icons/time.png');
+    width: 24px;
+    height: 24px;
+}

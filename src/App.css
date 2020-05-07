@@ -5,3 +5,28 @@
 body {
   font-family: 'ReenieBeanie', cursive;
 }
+.Game__main {
+  display: flex;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+  padding: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(3, 79, 76, 0.42);
+}

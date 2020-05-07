@@ -1,0 +1,29 @@
+.GameListState {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+.GameListState__wrapper {
+    display: inline-flex;
+    width: 350px;
+    height: 500px;
+    background-image: url('../../styles/icons/list.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: white;
+    border-radius: 33px;
+    align-items: center;
+    flex-direction: column;
+}
+.GameListState__title {
+    padding: 20px 0;
+    font-size: 27px;
+}
+.GameListState__list {
+    height: 400px;
+    overflow-y: scroll;
+    width: 100%;
+}
