@@ -6,6 +6,7 @@ class Game {
         this.states = [];
         this.createInitialTile(dimension);
         this.moveTile = this.moveTile.bind(this);
+        this.moveTileInGame = this.moveTileInGame.bind(this);
         this.endGame = false;
         this.solveA = this.solveA.bind(this);
     }
@@ -62,7 +63,7 @@ class Game {
         this.indexXEmpty = emptyCoords.x;
         this.indexYEmpty = emptyCoords.y;
         // будем рандомно перемещать элементы итоговой доски
-        let i = 100;
+        let i = 300;
         while (i > 0) {
             this.state = this.moveTileInMatrix(this.state, dimension, this.randomInteger(1, dimension * dimension - 1));
             i--;
@@ -148,8 +149,29 @@ class Game {
         if (this.isEndGame(dimension)) {
             this.endGame = true;
         }
-        this.states.push(this.arrayClone(newState.state));
         return newState;
+    }
+
+    public moveTileInGame (dimension: number, tile: number | string): Array<Array<string | number>> {
+
+
+        // проверяем, можем ли мы двигать плитку
+        if (!this.canMoveTile(dimension, tile)) {
+            return this.state;
+        }
+
+        let emptyCoords = this.getCoordsTile(dimension, '');
+        const tileCoords = this.getCoordsTile(dimension, tile);
+        this.state[emptyCoords.x][emptyCoords.y] = tile;
+        this.indexXEmpty = tileCoords.x;
+        this.indexYEmpty = tileCoords.y;
+        this.state[tileCoords.x][tileCoords.y] = '';
+        this.moves++;
+        if (this.isEndGame(dimension)) {
+            this.endGame = true;
+        }
+        this.states.push(this.arrayClone(this.state));
+        return this.state;
     }
 
     public moveTileInMatrix (state: Array<Array<string|number>>, dimension: number, tile: number | string): Array<Array<string|number>> {

@@ -23,7 +23,7 @@ class App extends Component<any, IGame > {
         this.state = {
             game: game,
             moves: game.getMoves(),
-            moveTile: game.moveTile,
+            moveTile: game.moveTileInGame,
             state: game.getState(),
             states: game.states,
             endGame: game.endGame,
