@@ -11,13 +11,14 @@ interface IGame {
     endGame: boolean
     game: any
     solveA: Function
+    solveIDA: Function
 
 
 }
 class App extends Component<any, IGame > {
     constructor(props: any) {
         super(props);
-        const game = new  Game(4);
+        const game = new  Game(3);
         this.updateState = this.updateState.bind(this);
         this.onClick = this.onClick.bind(this);
         this.state = {
@@ -27,7 +28,8 @@ class App extends Component<any, IGame > {
             state: game.getState(),
             states: game.states,
             endGame: game.endGame,
-            solveA: game.solveA
+            solveA: game.solveA,
+            solveIDA: game.solveIDA
         }
     }
     // @ts-ignore
@@ -44,7 +46,10 @@ class App extends Component<any, IGame > {
         this.setState(value);
     }
     onClick() {
-        this.state.solveA(4);
+        this.state.solveA(3);
+    }
+    onClickIDA() {
+        this.state.solveIDA(3);
     }
 
     render() {
@@ -53,9 +58,10 @@ class App extends Component<any, IGame > {
         if (!this.state.endGame) {
             gameState =
                 <div className="Game__main">
-                    <GameBoard dimension={4} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState}/>
-                    <GameListState dimension={4} states={this.state.states} />
+                    <GameBoard dimension={3} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState}/>
+                    <GameListState dimension={3} states={this.state.states} />
                     <div onClick={(e) => this.onClick()}>ClickMe</div>
+                    <div onClick={(e) => this.onClickIDA()}>ClickMeIDA</div>
                 </div>
         }
         else {

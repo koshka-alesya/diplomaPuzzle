@@ -1,5 +1,7 @@
 // @ts-ignore
 import {TileState} from "./TileState";
+import {start} from "repl";
+const INFINITY = Number.MAX_SAFE_INTEGER;
 
 class Game {
     constructor(dimension: number) {
@@ -9,6 +11,7 @@ class Game {
         this.moveTileInGame = this.moveTileInGame.bind(this);
         this.endGame = false;
         this.solveA = this.solveA.bind(this);
+        this.solveIDA = this.solveIDA.bind(this);
     }
     public _finalState3: Array<Array<number | string>> = [
         [1, 2, 3],
@@ -95,8 +98,9 @@ class Game {
 
     protected isIncludeArray(array1: any[], array2: any[]) {
         for (let i = 0; i< array1.length; i++) {
-            if (this.arrayCompare(array1[i], array2))
+            if (this.arrayCompare(array1[i], array2)) {
                 return i;
+            }
         }
         return false;
     }
@@ -122,6 +126,10 @@ class Game {
     public isEndGame (dimension: number): boolean {
         let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : this.arrayClone(this._finalState4);
        return this.state.toString()  === finalState.toString() ;
+    }
+    public isEndGameIDA (dimension: number, state:any[]): boolean {
+        let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : this.arrayClone(this._finalState4);
+        return state.toString()  === finalState.toString() ;
     }
 
     protected canMoveTileState(state: TileState, dimension: number, tile: number | string): boolean {
@@ -361,88 +369,69 @@ class Game {
         console.log("Closed: ");
         console.log(this._listCloseStateA);
         return null;
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //     for (let i=1; i< this._listOpenStateA.length; i++) {
-        //         let isMin = this.getStateForMoveWithLeastWeight(this._listOpenStateA[i], dimension);
-        //         if (isMin.minWeight < minF.minWeight){
-        //             minF = isMin;
-        //             gen = i;
-        //         }
-        //     }
-        //     this.state = minF.state;
-        //
-        //     if (this.isEndGame(dimension))
-        //         return;
-        //
-        //
-        //     this._listOpenStateA[gen].splice(minF.minIndex, 1);
-        //     this._listCloseStateA.push(this.arrayClone(this.state));
-        //
-        //
-        //
-        //     // находим возможные состояния из текущей вершины
-        //     //let posStates = this.getPossibleStatesForMove(this.state, dimension);
-        //     if (posStates.length === 0 ) {
-        //         console.log('sorry');
-        //         break;
-        //     }
-        //     else {
-        //         let posStates = this.getPossibleStatesForMove(this.state, dimension);
-        //         for (let i=0; i< this._listCloseStateA.length; i++) {
-        //             const index = this.isIncludeArray(posStates, this._listCloseStateA[i]);
-        //             if (index /*&& count >= i*/){
-        //                 console.log("Delete" + index)
-        //                 posStates.splice(index, 1);
-        //             }
-        //         }
-        //
-        //         let dataLeastWeight = this.getStateForMoveWithLeastWeight(posStates, dimension);
-        //         this.state = dataLeastWeight.state;
-        //         posStates.splice(dataLeastWeight.min, 1);
-        //
-        //         // пока хз
-        //         let flag = 0;
-        //         for (let i=0; i< this._listOpenStateA.length; i++) {
-        //             if (this.isIncludeArray(this._listOpenStateA[i],this.state) && count > i) {
-        //                 // откатываем до i удаляем из списка открытых этот стейт и откатываем до i список закрытых
-        //                 const findIndex = this.indexOfArray(this._listOpenStateA[i], this.state)
-        //                 count = i;
-        //
-        //                 // this._listCloseStateA.splice(i);
-        //                 this._listOpenStateA[i].splice(findIndex,1);
-        //                 flag = i;
-        //
-        //                 console.log("Revert to " + i)
-        //                 // console.log("Closed: ");
-        //                 // console.log(this._listCloseStateA);
-        //                 // console.log("Open: ");
-        //                 // console.log(this._listOpenStateA);
-        //                 break;
-        //             }
-        //         }
-        //         // если не содержится - добавляем в список закрытых и идем дальше
-        //         let emptyCoords = this.getCoordsTile(dimension, '');
-        //         this.indexXEmpty = emptyCoords.x;
-        //         this.indexYEmpty = emptyCoords.y;
-        //         this.moves++;
-        //         console.log(count + ":");
-        //         console.log(this.arrayClone(this.state));
-        //         this._listCloseStateA.push(this.arrayClone(this.state));
-        //         this._listOpenStateA.push(posStates);
-        //     }
-        // }
 }
     public solveA(dimension: number): void {
         this.getListTileA(dimension);
     }
+    protected path: Array<Array<Array<number | string>>> = [];
+
+    private search(node: TileState, g: number, threshold: number | string, dimension: number): number | string {
+       //  console.log("Search start")
+       // let node = this.path[this.path.length - 1];
+        let f = g + this.getManhattanDistance(node.state, dimension);
+        if (f > threshold) {
+            return f;
+        }
+        if (this.isEndGameIDA(dimension, node.state)) {
+            console.log(this.path);
+           return 'FOUND';
+        }
+        let min = INFINITY;
+        let posStates = this.getPossibleStatesForMove(node, dimension);
+        for (let i=0; i<posStates.length; i++) {
+            let neighbor = posStates[i];
+            if (!this.isIncludeArray(this.path, neighbor.state)) {
+                let distance = node.g + 1;
+                neighbor.parent = node;
+                neighbor.g = distance;
+                neighbor.h = this.getManhattanDistance(neighbor.state, dimension);
+                this.path.push(neighbor.state);
+
+                let temp = this.search(neighbor, g + 1, threshold, dimension);
+                if(temp === 'FOUND') {
+                    //if goal found
+                    return 'FOUND';
+                }
+                if(temp < min)     {
+                    // @ts-ignore
+                    min = temp;
+                }
+                // console.log(this.path)
+                this.path.pop()
+            }
+        }
+        return min;
+    }
+
+    public solveIDA(dimension: number): void | string {
+        this.path.push(this.arrayClone(this.state));
+        const startState = new TileState(this.state);
+        startState.g = 0;
+        startState.h = this.getManhattanDistance(startState.state, dimension);
+        let threshold: number | string = startState.h;
+        while (1) {
+          //  console.log("Main loop")
+            let temp = this.search(startState, 0, threshold, dimension);
+            if ( temp === 'FOUND') {
+                return 'FOUND';
+
+            }
+            if(temp ===  INFINITY)                               //Threshold larger than maximum possible f value
+                return;
+            threshold = temp;
+        }
+    }
+
 
 }
 export default Game;
