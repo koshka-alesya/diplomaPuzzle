@@ -49,8 +49,6 @@ class WonPage extends Component<IWonPage, Readonly<IPageState>> {
     };
     onClick() {
         this.props.updateStateApp({isGame: true, isWon: false, dimension: this.state.dimension});
-        // this.props.updateStateApp({isWon: false});
-        // this.props.updateStateApp({dimension: this.state.dimension});
     }
     render() {
         let title = this.props.isWon ? 'You won!' : 'Start game';
