@@ -66,7 +66,7 @@ class Game {
         this.indexXEmpty = emptyCoords.x;
         this.indexYEmpty = emptyCoords.y;
         // будем рандомно перемещать элементы итоговой доски
-        let i = 300;
+        let i = 50;
         while (i > 0) {
             this.state = this.moveTileInMatrix(this.state, dimension, this.randomInteger(1, dimension * dimension - 1));
             i--;

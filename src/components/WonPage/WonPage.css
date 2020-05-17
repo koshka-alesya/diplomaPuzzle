@@ -1,0 +1,31 @@
+.WonPage {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.WonPage__icon {
+    display: inline-flex;
+    width: 600px;
+    height: 550px;
+    background-image: url('../../styles/icons/won.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.WonPage__title {
+    font-size: 60px;
+    color: black;
+    margin-bottom: 30px;
+}
+.WonPage__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.WonPage__dimension {
+    width: 90px;
+}
+.WonPage__text {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

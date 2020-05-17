@@ -3,69 +3,37 @@ import './App.css';
 import Game from './logic/Game';
 import GameBoard from "./components/GameBoard/GameBoard";
 import GameListState from "./components/GameListState/GameListState";
-interface IGame {
-    states: Array<Array<Array<number | string>>>
-    state: Array<Array<number | string>>
-    moves: number
-    moveTile: Function
-    endGame: boolean
-    game: any
-    solveA: Function
-    solveIDA: Function
-
-
+import WonPage from "./components/WonPage/WonPage";
+import PageGame from "./components/PageGame/PageGame";
+interface IApp {
+    isGame: boolean
+    isWon: boolean
+    dimension: number
 }
-class App extends Component<any, IGame > {
+class App extends Component<any, IApp> {
     constructor(props: any) {
         super(props);
-        const game = new  Game(3);
-        this.updateState = this.updateState.bind(this);
-        this.onClick = this.onClick.bind(this);
+        this.updateStateApp = this.updateStateApp.bind(this);
         this.state = {
-            game: game,
-            moves: game.getMoves(),
-            moveTile: game.moveTileInGame,
-            state: game.getState(),
-            states: game.states,
-            endGame: game.endGame,
-            solveA: game.solveA,
-            solveIDA: game.solveIDA
+            isGame: false,
+            isWon: false,
+            dimension: 3
         }
     }
-    // @ts-ignore
-    componentDidUpdate(prevProps, prevState) {
-        // @ts-ignore
-        if (this.state.game.getMoves() !== prevState.moves) {
-           this.setState({moves: this.state.game.getMoves()})
-        }
-        if (this.state.game.endGame !== prevState.endGame) {
-            this.setState({endGame: this.state.game.endGame})
-        }
-    }
-    updateState(value: IGame) {
+
+    updateStateApp(value: any) {
         this.setState(value);
-    }
-    onClick() {
-        this.state.solveA(3);
-    }
-    onClickIDA() {
-        this.state.solveIDA(3);
     }
 
     render() {
         let gameState;
         // @ts-ignore
-        if (!this.state.endGame) {
+        if (this.state.isGame && !this.state.isWon) {
             gameState =
-                <div className="Game__main">
-                    <GameBoard dimension={3} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState}/>
-                    <GameListState dimension={3} states={this.state.states} />
-                    <div onClick={(e) => this.onClick()}>ClickMe</div>
-                    <div onClick={(e) => this.onClickIDA()}>ClickMeIDA</div>
-                </div>
+               <PageGame dimension={this.state.dimension} updateStateApp={this.updateStateApp} />
         }
         else {
-            gameState = <div>win</div>
+            gameState = <WonPage isWon={this.state.isWon} updateStateApp={this.updateStateApp}/>
         }
         return (
             <div className="App">

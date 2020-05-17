@@ -1,6 +1,8 @@
 import React from 'react';
 import Tiles from '../Tiles/Tiles';
 import Timer from '../Timer/Timer';
+// @ts-ignore
+import Select from 'react-select';
 import './GameBoard.css';
 interface IBoardType {
     dimension: number
@@ -9,6 +11,14 @@ interface IBoardType {
     clickHandler: Function
     updateState: Function
 }
+const options = [
+    { value: '3x3', label: '3x3' },
+    { value: '4x4', label: '4x4' }
+]
+const customStyles = {
+        borderBottom: '1px dotted pink',
+        color: 'Forest',
+    }
 function GameBoard(props: IBoardType) {
     return (
         <div className="GameBoard">

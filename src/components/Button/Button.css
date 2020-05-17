@@ -1,0 +1,20 @@
+.Button {
+    width: 220px;
+    height: 60px;
+    background: linear-gradient(180deg, #FC88A1 0%, #FF456D 100%);
+    box-shadow: 4px 4px 20px #FF449E;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 27px;
+    margin-top: 30px;
+}
+.Button:hover {
+    transform: scale(1.2);
+    background: linear-gradient(180deg, #FF849E 0%, #FF093E 100%);
+}
+.Button__clicked {
+    background: linear-gradient(180deg, #FF849E 0%, #FF093E 100%);
+}
