@@ -6,6 +6,7 @@ interface ITileType {
     y: number
     clickHandler: Function
     updateState: Function
+    dimension: number
 }
 function Tile(props: ITileType) {
     let posTop = props.x === 0 ? 0 : (props.x*80) + 'px';
@@ -17,7 +18,7 @@ function Tile(props: ITileType) {
     const classTile = props.tile === '' ? 'Tile__cactus' : 'Tile__number';
 
     function onClick() {
-        props.updateState(props.clickHandler(3, props.tile))
+        props.updateState(props.clickHandler(props.dimension, props.tile))
     }
     return (
         <div className="Tile" style={posStyle} onClick={(e) => onClick()}>

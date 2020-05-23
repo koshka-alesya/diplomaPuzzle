@@ -59,6 +59,7 @@ class WonPage extends Component<IWonPage, Readonly<IPageState>> {
             <div className="WonPage">
                 {sparkle}
                 <div className="WonPage__content">
+                    <div className="Fern__title">Fern puzzle</div>
                     <div className="WonPage__icon"></div>
                     <StyleRoot>
                         <div className="WonPage__text">
@@ -70,10 +71,12 @@ class WonPage extends Component<IWonPage, Readonly<IPageState>> {
                                     ...theme,
                                     colors: {
                                         ...theme.colors,
-                                        primary25: '#E5FFED',
+                                        primary25: '#e5ffed',
                                         primary: '#7CB777',
                                         primary75: '#7CB777',
-                                        primary50: '#7CB777'
+                                        primary50: '#7CB777',
+                                        neutral0: '#000000',
+                                        neutral80: 'white'
                                     },
                                 })} defaultValue={options[0]}/>
                             </div>

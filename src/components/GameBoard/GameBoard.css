@@ -7,10 +7,9 @@
     color: white;
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
     border-radius: 33px;
-    margin-right: 30px;
+    margin-right: 50px;
 }
 .GameBoard__moves {
     margin-top: 20px;
@@ -33,4 +32,9 @@
 .GameBoard__select-dimension {
     width: 90px;
     color: black;
+}
+.GameBoard__title {
+    padding: 20px 0;
+    font-size: 27px;
+    color: #FF456D;
 }

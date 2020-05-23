@@ -22,6 +22,7 @@ const customStyles = {
 function GameBoard(props: IBoardType) {
     return (
         <div className="GameBoard">
+            <div className="GameBoard__title">Game</div>
             <div className="GameBoard__timer">
                 <div className="GameBoard__timer__icon"></div>
                 <Timer />

@@ -8,26 +8,43 @@ body {
 .Game__main {
   display: flex;
   justify-content: center;
-  margin: 100px;
 }
+/*
 ::-webkit-scrollbar {
   width: 10px;
   background: transparent;
   padding: 20px;
 }
 
-/* Track */
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: transparent;
   border-radius: 20px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(3, 79, 76, 0.42);
+}
+*/
+.App {
+  background: url("./styles/icons/Desktop.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+
+}
+.Game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.Fern__title {
+  color: #FF456D;
+  font-size: 80px;
+  padding: 30px;
 }

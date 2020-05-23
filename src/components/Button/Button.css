@@ -18,3 +18,8 @@
 .Button__clicked {
     background: linear-gradient(180deg, #FF849E 0%, #FF093E 100%);
 }
+.Game__button .Button {
+    background: transparent;
+    margin: 30px;
+    margin-top: 70px;
+}

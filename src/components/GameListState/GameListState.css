@@ -21,6 +21,7 @@
 .GameListState__title {
     padding: 20px 0;
     font-size: 27px;
+    color: #FF456D;
 }
 .GameListState__list {
     height: 400px;

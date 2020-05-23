@@ -1,0 +1,4 @@
+.Game__buttons {
+    display: inline-flex;
+    flex-display: row;
+}

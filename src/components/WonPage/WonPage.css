@@ -2,18 +2,20 @@
     position: relative;
     display: flex;
     justify-content: center;
+    height: 100vh;
+    width: 100%;
 }
 .WonPage__icon {
     display: inline-flex;
-    width: 600px;
-    height: 550px;
-    background-image: url('../../styles/icons/won.svg');
+    width: 400px;
+    height: 400px;
+    background-image: url('../../styles/icons/Fern.svg');
     background-repeat: no-repeat;
     background-size: contain;
 }
 .WonPage__title {
-    font-size: 60px;
-    color: black;
+    font-size: 40px;
+    color: #FF456D;
     margin-bottom: 30px;
 }
 .WonPage__content {
@@ -28,4 +30,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+canvas {
+    width: 100%;
+    height: 100%;
 }
