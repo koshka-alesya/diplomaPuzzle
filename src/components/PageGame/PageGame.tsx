@@ -52,16 +52,22 @@ class PageGame extends Component<any, IGame > {
     }
     onClickA() {
         let statesA = this.state.solveA(this.state.dimension);
-        this.setState({states:  statesA});
+        this.setState({states:  statesA, moves: statesA.length - 1});
     }
     onClickIDA() {
         let statesIDA = this.state.solveIDA(this.state.dimension);
-        this.setState({states: statesIDA});
+        this.setState({states: statesIDA, moves: statesIDA.length - 1});
     }
+    onBackHome() {
+        this.props.updateStateApp({isWon: false, isGame: false});
+    }
+
+
 
     render() {
         return (
             <div className="App">
+                <div className="Game__back" onClick={() => this.onBackHome()}><span className="Game__back__icon"></span> </div>
                 <div className="Game">
                     <div className="Fern__title">Fern puzzle</div>
                     <div className="Game__main">

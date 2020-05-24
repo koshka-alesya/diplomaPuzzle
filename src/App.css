@@ -37,12 +37,7 @@ body {
   height: 100vh;
 
 }
-.Game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+
 .Fern__title {
   color: #FF456D;
   font-size: 80px;

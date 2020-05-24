@@ -1,4 +1,26 @@
 .Game__buttons {
     display: inline-flex;
-    flex-display: row;
+    flex-direction: row;
+}
+.Game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.Game__back {
+    background: url("../../styles/icons/backbtn.svg");
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    position: sticky;
+    top: 30px;
+    left: 30px;
+    z-index: 1000;
+    cursor: pointer;
+}
+.Game__back:hover {
+    transform: scale(1.5);
 }
