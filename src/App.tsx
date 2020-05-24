@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import Game from './logic/Game';
-import GameBoard from "./components/GameBoard/GameBoard";
-import GameListState from "./components/GameListState/GameListState";
 import WonPage from "./components/WonPage/WonPage";
 import PageGame from "./components/PageGame/PageGame";
 interface IApp {

@@ -7,8 +7,8 @@ import { tada } from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
 import './WonPage.css';
 import Button from "../Button/Button";
-// @ts-ignore
-import Select from 'react-select';
+import Dropdown from "../Dropdown/Dropdown";
+
 
 
 const styles = {
@@ -38,14 +38,15 @@ interface IPageState {
 class WonPage extends Component<IWonPage, Readonly<IPageState>> {
     constructor(props: any) {
         super(props);
+        this.handleChange = this.handleChange.bind(this);
         this.state = {
             dimension: 3,
             isWon: this.props.isWon,
             updateStateApp: this.props.updateStateApp
         }
     }
-    handleChange = (selectedOption: any) => {
-        this.setState({dimension: selectedOption.value})
+    handleChange = (value: number) => {
+        this.setState({dimension: value})
     };
     onClick() {
         this.props.updateStateApp({isGame: true, isWon: false, dimension: this.state.dimension});
@@ -66,20 +67,7 @@ class WonPage extends Component<IWonPage, Readonly<IPageState>> {
                             <div className="test" style={styles.tada}>
                                 <div className="WonPage__title">{title}</div>
                             </div>
-                            <div className="WonPage__dimension">
-                                <Select options={options} onChange={this.handleChange} theme={(theme: any) => ({
-                                    ...theme,
-                                    colors: {
-                                        ...theme.colors,
-                                        primary25: '#e5ffed',
-                                        primary: '#7CB777',
-                                        primary75: '#7CB777',
-                                        primary50: '#7CB777',
-                                        neutral0: '#000000',
-                                        neutral80: 'white'
-                                    },
-                                })} defaultValue={options[0]}/>
-                            </div>
+                            <Dropdown handleChange={this.handleChange}/>
                             <div className="WonPage__button" onClick={(e) => this.onClick()}>
                                 <Button caption={'Play'}/>
                             </div>

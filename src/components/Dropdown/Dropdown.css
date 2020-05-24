@@ -1,0 +1,59 @@
+.DropDown__main {
+    box-shadow: 4px 4px 20px #FF449E;
+    border-radius: 30px;
+    background: transparent;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    box-sizing: border-box;
+    width: 220px;
+    height: 60px;
+    cursor: pointer;
+}
+.DropDown__expanded {
+    width: 25px;
+    height: 25px;
+    background: url("../../styles/icons/downArrow.svg");
+}
+.DropDown {
+    color: #FF449E;
+    font-size: 25px;
+    position: relative;
+    width: 220px;
+}
+.DropDown__menu {
+    border-radius: 10px;
+    box-shadow: 4px 4px 20px #FF449E;
+    padding: 0 20px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: black;
+    position: absolute;
+    top: 70px;
+}
+.DropDown__menu__item {
+    padding: 8px 0;
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    cursor: pointer;
+}
+.DropDown__menu__item:hover {
+    color: #FF093E;
+}
+.DropDown__dot {
+    width: 15px;
+    height: 15px;
+    background: url("../../styles/icons/dot.svg");
+}
+.DropDown__menu__item__title {
+    padding-left: 10px;
+}
