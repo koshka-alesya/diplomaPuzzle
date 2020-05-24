@@ -9,27 +9,30 @@ body {
   display: flex;
   justify-content: center;
 }
-/*
-::-webkit-scrollbar {
+.GameListState__list::-webkit-scrollbar {
   width: 10px;
+  background: transparent;
+  padding: 20px;
+}
+.GameListState__list::-webkit-scrollbar {
+  width: 20px;
   background: transparent;
   padding: 20px;
 }
 
 
-::-webkit-scrollbar-track {
+.GameListState__list::-webkit-scrollbar-track {
   background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
+.GameListState__list::-webkit-scrollbar-thumb {
   background: transparent;
   border-radius: 20px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.GameListState__list::-webkit-scrollbar-thumb:hover {
   background: rgba(3, 79, 76, 0.42);
 }
-*/
 .App {
   background: url("./styles/icons/Desktop.svg");
   background-repeat: no-repeat;
