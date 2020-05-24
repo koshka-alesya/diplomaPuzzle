@@ -51,10 +51,12 @@ class PageGame extends Component<any, IGame > {
         this.setState(value);
     }
     onClickA() {
-        this.state.solveA(this.state.dimension);
+        let statesA = this.state.solveA(this.state.dimension);
+        this.setState({states:  statesA});
     }
     onClickIDA() {
-        this.state.solveIDA(this.state.dimension);
+        let statesIDA = this.state.solveIDA(this.state.dimension);
+        this.setState({states: statesIDA});
     }
 
     render() {
@@ -70,7 +72,7 @@ class PageGame extends Component<any, IGame > {
                         <div className="Game__button" onClick={(e) => this.onClickA()}>
                             <Button caption={'Solve A*'}/>
                         </div>
-                        <div className="Game__button" onClick={(e) => this.onClickA()}>
+                        <div className="Game__button" onClick={(e) => this.onClickIDA()}>
                             <Button caption={'Solve IDA'}/>
                         </div>
                     </div>

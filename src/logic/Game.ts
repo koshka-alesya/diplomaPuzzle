@@ -66,7 +66,7 @@ class Game {
         this.indexXEmpty = emptyCoords.x;
         this.indexYEmpty = emptyCoords.y;
         // будем рандомно перемещать элементы итоговой доски
-        let i = 50;
+        let i = 300;
         while (i > 0) {
             this.state = this.moveTileInMatrix(this.state, dimension, this.randomInteger(1, dimension * dimension - 1));
             i--;
@@ -319,7 +319,7 @@ class Game {
     // список открытых вершин, которые не надо проверять
     protected _listOpenStateA:Array<TileState> = [];
     protected _listCloseStateA:Array<TileState> = [];
-    public getListTileA(dimension: number): TileState[]|null {
+    public getListTileA(dimension: number): Array<Array<number|string>> | null {
         const startState = new TileState(this.state);
         startState.g = 0;
         startState.h = this.getManhattanDistance(startState.state, dimension);
@@ -335,10 +335,13 @@ class Game {
             if (this.isEndGame(dimension)) {
                 let solution = this.completeSolutionList(currentState);
                 console.log("Solution");
+                let solutionA: Array<Array<number|string>> = [];
                 solution.forEach((item) => {
                     console.log(item.state);
+                    // @ts-ignore
+                    solutionA.push(item.state)
                 })
-                return solution
+                return solutionA
             }
 
             this._listOpenStateA.splice(minF.minIndex, 1);
@@ -370,8 +373,8 @@ class Game {
         console.log(this._listCloseStateA);
         return null;
 }
-    public solveA(dimension: number): void {
-        this.getListTileA(dimension);
+    public solveA(dimension: number): Array<Array<number|string>> | null {
+        return this.getListTileA(dimension);
     }
     protected path: Array<Array<Array<number | string>>> = [];
 
@@ -413,7 +416,8 @@ class Game {
         return min;
     }
 
-    public solveIDA(dimension: number): void | string {
+    // @ts-ignore
+    public solveIDA(dimension: number): Array<Array<Array<number | string>>> | undefined{
         this.path.push(this.arrayClone(this.state));
         const startState = new TileState(this.state);
         startState.g = 0;
@@ -423,7 +427,7 @@ class Game {
           //  console.log("Main loop")
             let temp = this.search(startState, 0, threshold, dimension);
             if ( temp === 'FOUND') {
-                return 'FOUND';
+                return this.path;
 
             }
             if(temp ===  INFINITY)                               //Threshold larger than maximum possible f value
