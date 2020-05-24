@@ -5,6 +5,7 @@ import Game from '../../logic/Game';
 import GameBoard from "../GameBoard/GameBoard";
 import GameListState from "../GameListState/GameListState";
 import Button from "../Button/Button";
+import Tile from "../Tile/Tile";
 interface IGame {
     states: Array<Array<Array<number | string>>>
     state: Array<Array<number | string>>
@@ -14,7 +15,8 @@ interface IGame {
     game: any
     solveA: Function
     solveIDA: Function
-    dimension: number
+    dimension: number,
+    expanded: boolean
 
 
 }
@@ -33,7 +35,8 @@ class PageGame extends Component<any, IGame > {
             endGame: game.endGame,
             solveA: game.solveA,
             solveIDA: game.solveIDA,
-            dimension: props.dimension
+            dimension: props.dimension,
+            expanded: true
         }
     }
     // @ts-ignore
@@ -52,11 +55,11 @@ class PageGame extends Component<any, IGame > {
     }
     onClickA() {
         let statesA = this.state.solveA(this.state.dimension);
-        this.setState({states:  statesA, moves: statesA.length - 1});
+        this.setState({states:  statesA, moves: statesA.length - 1, state: statesA[statesA.length -1], expanded: false});
     }
     onClickIDA() {
         let statesIDA = this.state.solveIDA(this.state.dimension);
-        this.setState({states: statesIDA, moves: statesIDA.length - 1});
+        this.setState({states: statesIDA, moves: statesIDA.length - 1, state: statesIDA[statesIDA.length -1], expanded: false});
     }
     onBackHome() {
         this.props.updateStateApp({isWon: false, isGame: false});
@@ -65,16 +68,17 @@ class PageGame extends Component<any, IGame > {
 
 
     render() {
+        let styleExpandedGame = this.state.expanded ? {} : {display: 'none'};
         return (
             <div className="App">
                 <div className="Game__back" onClick={() => this.onBackHome()}><span className="Game__back__icon"></span> </div>
                 <div className="Game">
                     <div className="Fern__title">Fern puzzle</div>
                     <div className="Game__main">
-                        <GameBoard dimension={this.state.dimension} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState}/>
+                        <GameBoard style={styleExpandedGame} dimension={this.state.dimension} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState}/>
                         <GameListState dimension={this.state.dimension} states={this.state.states} />
                     </div>
-                    <div className="Game__buttons">
+                    <div className="Game__buttons" style={styleExpandedGame}>
                         <div className="Game__button" onClick={(e) => this.onClickA()}>
                             <Button caption={'Solve A*'}/>
                         </div>

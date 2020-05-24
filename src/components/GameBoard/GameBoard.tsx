@@ -10,6 +10,7 @@ interface IBoardType {
     moves: number
     clickHandler: Function
     updateState: Function
+    style: any
 }
 const options = [
     { value: '3x3', label: '3x3' },
@@ -21,7 +22,7 @@ const customStyles = {
     }
 function GameBoard(props: IBoardType) {
     return (
-        <div className="GameBoard">
+        <div className="GameBoard" style={props.style}>
             <div className="GameBoard__title">Game</div>
             <div className="GameBoard__timer">
                 <div className="GameBoard__timer__icon"></div>
