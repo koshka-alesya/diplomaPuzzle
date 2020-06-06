@@ -5,6 +5,7 @@ import Game from '../../logic/Game';
 import GameBoard from "../GameBoard/GameBoard";
 import GameListState from "../GameListState/GameListState";
 import Button from "../Button/Button";
+import Test from "../Test/Test";
 import Tile from "../Tile/Tile";
 interface IGame {
     states: Array<Array<Array<number | string>>>
@@ -85,6 +86,7 @@ class PageGame extends Component<any, IGame > {
                         <div className="Game__button" onClick={(e) => this.onClickIDA()}>
                             <Button caption={'Solve IDA'}/>
                         </div>
+                        <Test />
                     </div>
                 </div>
             </div>
