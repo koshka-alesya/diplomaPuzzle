@@ -8,7 +8,8 @@ class Dropdown extends Component<any, Readonly<any>>{
         this.state = {
             variables: {
                 3: '3 x 3',
-                4: '4 x 4'
+                4: '4 x 4',
+                5: '5 x 5'
             },
             defaultValue: 3,
             expanded: false
@@ -40,6 +41,10 @@ class Dropdown extends Component<any, Readonly<any>>{
                     <div className="DropDown__menu__item" onClick={(e) => this.onChange(4)}>
                         <div className="DropDown__dot"></div>
                         <div className="DropDown__menu__item__title">4 x 4</div>
+                    </div>
+                    <div className="DropDown__menu__item" onClick={(e) => this.onChange(5)}>
+                        <div className="DropDown__dot"></div>
+                        <div className="DropDown__menu__item__title">5 x 5</div>
                     </div>
                 </div>
             </div>

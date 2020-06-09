@@ -9,11 +9,16 @@ interface ITileType {
     dimension: number
 }
 function Tile(props: ITileType) {
-    let posTop = props.x === 0 ? 0 : (props.x*80) + 'px';
-    let posLeft = props.y === 0 ? 0 : (props.y*80) + 'px';
+    let length = props.dimension === 5 ? 50 : 60;
+    let padding = props.dimension === 5 ? 10 : 20;
+    let posTop = props.x === 0 ? 0 : (props.x*(length+padding)) + 'px';
+    let posLeft = props.y === 0 ? 0 : (props.y*(length+padding)) + 'px';
     const posStyle = {
         top: posTop,
-        left: posLeft
+        left: posLeft,
+        width: length,
+        height: length
+
     };
     const classTile = props.tile === '' ? 'Tile__cactus' : 'Tile__number';
 

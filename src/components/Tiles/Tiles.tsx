@@ -14,7 +14,9 @@ function Tiles(props: ITilesType) {
             tiles.push(<Tile tile={props.state[i][j]} x={i} y={j} clickHandler={props.clickHandler} updateState={props.updateState} dimension={props.dimension}/>)
         }
     }
-    const length = (props.dimension*60 + (props.dimension - 1)*20)+'px';
+    const dim = props.dimension === 5 ? 50 : 60;
+    let padding = props.dimension === 5 ? 10 : 20;
+    const length = (props.dimension*dim + (props.dimension - 1)*padding)+'px';
     const styles = {
         width: length,
         height: length
