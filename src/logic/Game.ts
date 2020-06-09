@@ -29,6 +29,13 @@ class Game {
         [9, 10, 11, 12],
         [13, 14, 15, '']
     ];
+    public _finalState5: Array<Array<number | string>> = [
+        [1, 2, 3, 4, 5],
+        [6, 7, 8, 9, 10],
+        [11, 12, 13, 14, 15],
+        [16, 17, 18, 19, 20],
+        [21, 22, 23, 24, '']
+    ];
     public endGame: boolean = false;
     protected moves:number = 0;
     public states: Array<Array<Array<number | string>>> = [];
@@ -61,15 +68,18 @@ class Game {
         }
     }
     protected createInitialTile(dimension: number): void {
-        this.state = dimension === 3 ? this.arrayClone(this._finalState3) : this.arrayClone(this._finalState4);
+        this.state = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
         const emptyCoords = this.getCoordsTile(dimension, '');
         this.indexXEmpty = emptyCoords.x;
         this.indexYEmpty = emptyCoords.y;
         // будем рандомно перемещать элементы итоговой доски
-        let i = 300;
+        let i = 5;
         while (i > 0) {
+            let iniState = this.arrayClone(this.state);
             this.state = this.moveTileInMatrix(this.state, dimension, this.randomInteger(1, dimension * dimension - 1));
-            i--;
+            if (!this.arrayCompare(iniState, this.state)) {
+                i--;
+            }
         }
         this.moves = 0;
         this.states = [];
@@ -124,11 +134,11 @@ class Game {
         return ( tileCoords.y === this.indexYEmpty && Math.abs(tileCoords.x - this.indexXEmpty) === 1) || (tileCoords.x === this.indexXEmpty && Math.abs(tileCoords.y - this.indexYEmpty) === 1);
     }
     public isEndGame (dimension: number): boolean {
-        let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : this.arrayClone(this._finalState4);
+        let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
        return this.state.toString()  === finalState.toString() ;
     }
     public isEndGameIDA (dimension: number, state:any[]): boolean {
-        let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : this.arrayClone(this._finalState4);
+        let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
         return state.toString()  === finalState.toString() ;
     }
 
@@ -268,7 +278,7 @@ class Game {
     }
     // @ts-ignore
     private getRightCoordsTile (tile: number | string, dimension: number): {x: number, y: number} {
-        let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : this.arrayClone(this._finalState4)
+        let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
         for (let m=0; m<dimension;m++) {
             for (let d=0; d<dimension; d++) {
                 if (finalState[m][d] === tile) {
@@ -379,18 +389,17 @@ class Game {
     protected path: Array<Array<Array<number | string>>> = [];
 
     private search(node: TileState, g: number, threshold: number | string, dimension: number): number | string {
-       //  console.log("Search start")
-       // let node = this.path[this.path.length - 1];
         let f = g + this.getManhattanDistance(node.state, dimension);
         if (f > threshold) {
             return f;
         }
         if (this.isEndGameIDA(dimension, node.state)) {
-            console.log(this.path);
            return 'FOUND';
         }
         let min = INFINITY;
+
         let posStates = this.getPossibleStatesForMove(node, dimension);
+        console.log(posStates);
         for (let i=0; i<posStates.length; i++) {
             let neighbor = posStates[i];
             if (!this.isIncludeArray(this.path, neighbor.state)) {
@@ -399,17 +408,18 @@ class Game {
                 neighbor.g = distance;
                 neighbor.h = this.getManhattanDistance(neighbor.state, dimension);
                 this.path.push(neighbor.state);
+                console.log(neighbor);
 
                 let temp = this.search(neighbor, g + 1, threshold, dimension);
+                console.log('temp: ' + temp);
+                console.log('min' + min);
                 if(temp === 'FOUND') {
-                    //if goal found
                     return 'FOUND';
                 }
                 if(temp < min)     {
                     // @ts-ignore
                     min = temp;
                 }
-                // console.log(this.path)
                 this.path.pop()
             }
         }
@@ -424,7 +434,6 @@ class Game {
         startState.h = this.getManhattanDistance(startState.state, dimension);
         let threshold: number | string = startState.h;
         while (1) {
-          //  console.log("Main loop")
             let temp = this.search(startState, 0, threshold, dimension);
             if ( temp === 'FOUND') {
                 return this.path;

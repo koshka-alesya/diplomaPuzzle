@@ -1,38 +1,42 @@
 import React from 'react';
 import Game from '../../logic/Game';
 function Test() {
-    function testA(){
-        const game  = new Game(3);
+    function testA(): number{
+        const game  = new Game(5);
         const state = game.getState();
-        const solveStates = game.solveA(3);
+        console.log(state);
+        const start = new Date().getTime();
+        const solveStates = game.solveA(5);
+        const end = new Date().getTime();
         console.log(solveStates);
+        return end - start;
     }
-    function testIDA(){
-        const game  = new Game(3);
+    function testIDA(): number{
+        const game  = new Game(5);
         const state = game.getState();
-        const solveStates = game.solveIDA(3);
+        const start = new Date().getTime();
+        const solveStates = game.solveIDA(5);
+        const end = new Date().getTime();
         console.log(solveStates);
+        return end - start;
     }
     // @ts-ignore
     function getTimeAlgorithms(alg: string) {
-        let min = 0;
-        let max = 0;
-        const start = new Date().getTime();
+        let time;
         if (alg === 'A') {
-            testA();
+            time = testA();
         } else {
-            testIDA();
+            time = testIDA();
         }
-        const end = new Date().getTime();
-        const time = end - start;
         return time;
     }
     function mainTest(alg: string) {
         let min = getTimeAlgorithms(alg);
         let max = min;
         let count = min;
-        for (let i = 1; i< 300; i++) {
+        for (let i = 1; i< 20; i++) {
             let time = getTimeAlgorithms(alg);
+            console.log(time);
             if (time > max) {
                 max = time;
             }
@@ -41,7 +45,7 @@ function Test() {
             }
             count += time;
         }
-        console.log('Среднее время: ' + count / 300 + 'ms');
+        console.log('Среднее время: ' + count / 20 + 'ms');
         console.log('Мин. время: ' + min + 'ms');
         console.log('Макс. время: ' + max + 'ms');
     }
