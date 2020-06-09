@@ -24,3 +24,7 @@
 .Game__back:hover {
     transform: scale(1.5);
 }
+.Game__header {
+    display: inline-flex;
+    align-items: center;
+}

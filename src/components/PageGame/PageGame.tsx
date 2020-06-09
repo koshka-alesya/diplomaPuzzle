@@ -72,9 +72,11 @@ class PageGame extends Component<any, IGame > {
         let styleExpandedGame = this.state.expanded ? {} : {display: 'none'};
         return (
             <div className="App">
-                <div className="Game__back" onClick={() => this.onBackHome()}><span className="Game__back__icon"></span> </div>
                 <div className="Game">
-                    <div className="Fern__title">Fern puzzle</div>
+                    <div className="Game__header">
+                        <div className="Game__back" onClick={() => this.onBackHome()}><span className="Game__back__icon"></span> </div>
+                        <div className="Fern__title">Fern puzzle</div>
+                    </div>
                     <div className="Game__main">
                         <GameBoard style={styleExpandedGame} dimension={this.state.dimension} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState}/>
                         <GameListState dimension={this.state.dimension} states={this.state.states} />
