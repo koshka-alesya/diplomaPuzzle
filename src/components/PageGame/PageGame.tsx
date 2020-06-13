@@ -57,11 +57,13 @@ class PageGame extends Component<any, IGame > {
     }
     onClickA() {
         let statesA = this.state.solveA(this.state.dimension);
-        this.setState({states:  statesA, moves: statesA.length - 1, state: statesA[statesA.length -1], expanded: false});
+        this.animationSolve(statesA);
+        // this.setState({states:  statesA, moves: statesA.length - 1, state: statesA[statesA.length -1], expanded: false});
     }
     onClickIDA() {
         let statesIDA = this.state.solveIDA(this.state.dimension);
-        this.setState({states: statesIDA, moves: statesIDA.length - 1, state: statesIDA[statesIDA.length -1], expanded: false});
+        this.animationSolve(statesIDA);
+        // this.setState({states: statesIDA, moves: statesIDA.length - 1, state: statesIDA[statesIDA.length -1], expanded: false});
     }
     onBackHome() {
         this.props.updateStateApp({isWon: false, isGame: false});
@@ -70,6 +72,23 @@ class PageGame extends Component<any, IGame > {
         const element = document.querySelector('.TilesList__last');
         // @ts-ignore
         element.scrollIntoView();
+    }
+    animationSolve(states: Array<Array<Array<number | string>>>) {
+        // @ts-ignore
+        let statesAnimation = [];
+        statesAnimation.push(states[0]);
+        this.setState({states: statesAnimation, moves: 0, state: states[states.length -1], expanded: false});
+        let i = 1;
+        let timerId = setInterval(() => {
+            statesAnimation.push(states[i]);
+            this.setState({moves: i});
+            // @ts-ignore
+            this.setState({states: statesAnimation});
+            i++;
+            if (i === states.length) {
+                clearInterval(timerId);
+            }
+        }, 500);
     }
 
 
