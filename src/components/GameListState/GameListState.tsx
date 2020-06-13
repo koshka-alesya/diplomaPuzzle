@@ -8,7 +8,8 @@ interface IGameListState {
 }
 function GameListState(props: IGameListState) {
     let states: any[] = [];
-    props.states.forEach((item) => states.push(<TilesList dimension={props.dimension} state={item} />));
+    let lastIndex = props.states.length - 1;
+    props.states.forEach((item, index) => states.push(<TilesList dimension={props.dimension} state={item} class={index === lastIndex ? 'TilesList TilesList__last': 'TilesList'}/>));
     return (
             <div className="GameListState__wrapper">
                 <div className="GameListState__title">Steps</div>

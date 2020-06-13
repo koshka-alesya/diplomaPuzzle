@@ -5,6 +5,7 @@ import './Tiles.css';
 interface ITilesListType {
     dimension: number
     state: Array<Array<number | string>>
+    class: string
 }
 function TilesList(props: ITilesListType) {
     let tiles = [];
@@ -18,8 +19,9 @@ function TilesList(props: ITilesListType) {
         width: length,
         height: length
     };
+
     return (
-        <div className="TilesList" style={styles}>
+        <div className={props.class } style={styles}>
             {tiles}
         </div>
     );

@@ -34,7 +34,7 @@ function Test() {
         let min = getTimeAlgorithms(alg);
         let max = min;
         let count = min;
-        for (let i = 1; i< 20; i++) {
+        for (let i = 1; i< 10; i++) {
             let time = getTimeAlgorithms(alg);
             console.log(time);
             if (time > max) {
@@ -45,7 +45,7 @@ function Test() {
             }
             count += time;
         }
-        console.log('Среднее время: ' + count / 20 + 'ms');
+        console.log('Среднее время: ' + count / 10 + 'ms');
         console.log('Мин. время: ' + min + 'ms');
         console.log('Макс. время: ' + max + 'ms');
     }

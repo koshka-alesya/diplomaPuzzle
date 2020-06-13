@@ -44,7 +44,8 @@ class PageGame extends Component<any, IGame > {
     componentDidUpdate(prevProps, prevState) {
         // @ts-ignore
         if (this.state.game.getMoves() !== prevState.moves) {
-            this.setState({moves: this.state.game.getMoves()})
+            this.setState({moves: this.state.game.getMoves()});
+            this.scrollBottom();
         }
         if (this.state.game.endGame !== prevState.endGame) {
             this.setState({endGame: this.state.game.endGame});
@@ -64,6 +65,11 @@ class PageGame extends Component<any, IGame > {
     }
     onBackHome() {
         this.props.updateStateApp({isWon: false, isGame: false});
+    }
+    scrollBottom() {
+        const element = document.querySelector('.TilesList__last');
+        // @ts-ignore
+        element.scrollIntoView();
     }
 
 

@@ -1,6 +1,6 @@
 // @ts-ignore
 import {TileState} from "./TileState";
-import {start} from "repl";
+
 const INFINITY = Number.MAX_SAFE_INTEGER;
 
 class Game {
@@ -13,6 +13,7 @@ class Game {
         this.solveA = this.solveA.bind(this);
         this.solveIDA = this.solveIDA.bind(this);
     }
+
     public _finalState3: Array<Array<number | string>> = [
         [1, 2, 3],
         [4, 5, 6],
@@ -37,36 +38,43 @@ class Game {
         [21, 22, 23, 24, '']
     ];
     public endGame: boolean = false;
-    protected moves:number = 0;
+    protected moves: number = 0;
     public states: Array<Array<Array<number | string>>> = [];
-    public getMoves():number {
+
+    public getMoves(): number {
         return this.moves;
     }
+
     // @ts-ignore
     protected state: Array<Array<number | string>>;
+
     public getState(): Array<Array<number | string>> {
         return this.state;
     }
+
     // @ts-ignore
     protected indexXEmpty: number;
     // @ts-ignore
     protected indexYEmpty: number;
+
     // @ts-ignore
-    protected getCoordsTile(dimension: number, tile: number | string): {x: number, y: number} {
-        for (let i=0; i<dimension; i++ ) {
+    protected getCoordsTile(dimension: number, tile: number | string): { x: number, y: number } {
+        for (let i = 0; i < dimension; i++) {
             if (this.state[i].indexOf(tile) !== -1) {
                 return {x: i, y: this.state[i].indexOf(tile)};
             }
         }
     }
+
     // @ts-ignore
-    protected getCoordsTileInState(state: TileState, dimension: number, tile: number | string): {x: number, y: number} {
-        for (let i=0; i<dimension; i++ ) {
+    protected getCoordsTileInState(state: TileState, dimension: number, tile: number | string): { x: number, y: number } {
+        for (let i = 0; i < dimension; i++) {
             if (state.state[i].indexOf(tile) !== -1) {
                 return {x: i, y: state.state[i].indexOf(tile)};
             }
         }
     }
+
     protected createInitialTile(dimension: number): void {
         this.state = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
         const emptyCoords = this.getCoordsTile(dimension, '');
@@ -87,7 +95,7 @@ class Game {
         this.states.push(this.arrayClone(this.state));
     }
 
-    protected arrayClone(obj: any[]): any[]{
+    protected arrayClone(obj: any[]): any[] {
         const res: any[] = [];
         obj.forEach((array) => {
             res.push([...array])
@@ -95,10 +103,10 @@ class Game {
         return res;
     }
 
-    protected arrayCompare(obj1: any[], obj2: any[]): boolean{
-        for (let i = 0; i<obj1.length; i++){
-            for (let j = 0; j<obj1[i].length; j++){
-                if (obj2[i][j] !== obj1[i][j]){
+    protected arrayCompare(obj1: any[], obj2: any[]): boolean {
+        for (let i = 0; i < obj1.length; i++) {
+            for (let j = 0; j < obj1[i].length; j++) {
+                if (obj2[i][j] !== obj1[i][j]) {
                     return false
                 }
             }
@@ -107,15 +115,16 @@ class Game {
     }
 
     protected isIncludeArray(array1: any[], array2: any[]) {
-        for (let i = 0; i< array1.length; i++) {
+        for (let i = 0; i < array1.length; i++) {
             if (this.arrayCompare(array1[i], array2)) {
                 return i;
             }
         }
         return false;
     }
+
     protected indexOfArray(array1: any[], array2: any[]): number {
-        for (let i = 0; i< array1.length; i++) {
+        for (let i = 0; i < array1.length; i++) {
             if (this.arrayCompare(array1[i], array2))
                 return i;
         }
@@ -130,26 +139,28 @@ class Game {
 
     protected canMoveTile(dimension: number, tile: number | string): boolean {
         const tileCoords = this.getCoordsTile(dimension, tile);
-        // если нвходятся в одной строке и разница 1 или в одном столбце и разница 1
-        return ( tileCoords.y === this.indexYEmpty && Math.abs(tileCoords.x - this.indexXEmpty) === 1) || (tileCoords.x === this.indexXEmpty && Math.abs(tileCoords.y - this.indexYEmpty) === 1);
+        // если находятся в одной строке и разница 1 или в одном столбце и разница 1
+        return (tileCoords.y === this.indexYEmpty && Math.abs(tileCoords.x - this.indexXEmpty) === 1) || (tileCoords.x === this.indexXEmpty && Math.abs(tileCoords.y - this.indexYEmpty) === 1);
     }
-    public isEndGame (dimension: number): boolean {
+
+    public isEndGame(dimension: number): boolean {
         let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
-       return this.state.toString()  === finalState.toString() ;
+        return this.state.toString() === finalState.toString();
     }
-    public isEndGameIDA (dimension: number, state:any[]): boolean {
+
+    public isEndGameIDA(dimension: number, state: any[]): boolean {
         let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
-        return state.toString()  === finalState.toString() ;
+        return state.toString() === finalState.toString();
     }
 
     protected canMoveTileState(state: TileState, dimension: number, tile: number | string): boolean {
         const tileCoords = this.getCoordsTileInState(state, dimension, tile);
         let emptyCoords = this.getCoordsTileInState(state, dimension, '');
         // если нвходятся в одной строке и разница 1 или в одном столбце и разница 1
-        return ( tileCoords.y === emptyCoords.y && Math.abs(tileCoords.x - emptyCoords.x) === 1) || (tileCoords.x === emptyCoords.x && Math.abs(tileCoords.y - emptyCoords.y) === 1);
+        return (tileCoords.y === emptyCoords.y && Math.abs(tileCoords.x - emptyCoords.x) === 1) || (tileCoords.x === emptyCoords.x && Math.abs(tileCoords.y - emptyCoords.y) === 1);
     }
 
-    public moveTile (state: TileState, dimension: number, tile: number | string): TileState {
+    public moveTile(state: TileState, dimension: number, tile: number | string): TileState {
         let newState = new TileState(state.state);
 
         // проверяем, можем ли мы двигать плитку
@@ -170,14 +181,11 @@ class Game {
         return newState;
     }
 
-    public moveTileInGame (dimension: number, tile: number | string): Array<Array<string | number>> {
-
-
+    public moveTileInGame(dimension: number, tile: number | string): Array<Array<string | number>> {
         // проверяем, можем ли мы двигать плитку
         if (!this.canMoveTile(dimension, tile)) {
             return this.state;
         }
-
         let emptyCoords = this.getCoordsTile(dimension, '');
         const tileCoords = this.getCoordsTile(dimension, tile);
         this.state[emptyCoords.x][emptyCoords.y] = tile;
@@ -192,14 +200,12 @@ class Game {
         return this.state;
     }
 
-    public moveTileInMatrix (state: Array<Array<string|number>>, dimension: number, tile: number | string): Array<Array<string|number>> {
+    public moveTileInMatrix(state: Array<Array<string | number>>, dimension: number, tile: number | string): Array<Array<string | number>> {
         let newState = this.arrayClone(state);
-
         // проверяем, можем ли мы двигать плитку
         if (!this.canMoveTile(dimension, tile)) {
             return newState;
         }
-
         let emptyCoords = this.getCoordsTile(dimension, '')
         const tileCoords = this.getCoordsTile(dimension, tile);
         newState[emptyCoords.x][emptyCoords.y] = tile;
@@ -264,11 +270,12 @@ class Game {
         })
         return statesMove
     }
+
     // эвристика - считаем наименьший вес - простая - не эффективная
-    private getCountTileOutOfPlace(state: Array<Array<number | string>>, dimension: number): number{
+    private getCountTileOutOfPlace(state: Array<Array<number | string>>, dimension: number): number {
         let count = 0;
-        for (let i=0; i< dimension; i++) {
-            for (let j=0; j < dimension; j++) {
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
                 if (state[i][j] !== this._finalState31[i][j]) {
                     count++;
                 }
@@ -276,34 +283,37 @@ class Game {
         }
         return count;
     }
+
     // @ts-ignore
-    private getRightCoordsTile (tile: number | string, dimension: number): {x: number, y: number} {
+    private getRightCoordsTile(tile: number | string, dimension: number): { x: number, y: number } {
         let finalState = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
-        for (let m=0; m<dimension;m++) {
-            for (let d=0; d<dimension; d++) {
+        for (let m = 0; m < dimension; m++) {
+            for (let d = 0; d < dimension; d++) {
                 if (finalState[m][d] === tile) {
                     return {x: m, y: d}
                 }
             }
         }
     }
+
     private getManhattanDistance(state: Array<Array<number | string>>, dimension: number): number {
         let distance = 0;
-        for (let i=0; i< dimension; i++) {
-            for (let j=0; j < dimension; j++) {
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
                 let coordsRight = this.getRightCoordsTile(state[i][j], dimension);
                 let localDistance = Math.abs(i - coordsRight.x) + Math.abs(j - coordsRight.y);
-                distance+=localDistance;
+                distance += localDistance;
 
             }
         }
         return distance;
     }
+
     // получаем состояние с наименьшим весом
-    private getStateForMoveWithLeastWeight( states: Array<TileState>, dimension: number):{ state: TileState, minIndex: number, minWeight: number }  {
+    private getStateForMoveWithLeastWeight(states: Array<TileState>, dimension: number): { state: TileState, minIndex: number, minWeight: number } {
         let min: number = 0;
         let minWeight = states[0].h + states[0].g;
-        for (let i=1; i< states.length; i++) {
+        for (let i = 1; i < states.length; i++) {
             let weightState = states[i].h + states[i].g;
             if (weightState < minWeight) {
                 minWeight = weightState;
@@ -313,10 +323,10 @@ class Game {
         return {state: states[min], minIndex: min, minWeight: minWeight};
     }
 
-    private completeSolutionList(completeState: TileState): TileState[]{
+    private completeSolutionList(completeState: TileState): TileState[] {
         let resList: TileState[] = [];
         let s = completeState;
-        while(s.parent){
+        while (s.parent) {
             resList.unshift(s);
             s = s.parent;
         }
@@ -327,17 +337,14 @@ class Game {
     // Реализация алгоритмов
     protected _listStateA = [];
     // список открытых вершин, которые не надо проверять
-    protected _listOpenStateA:Array<TileState> = [];
-    protected _listCloseStateA:Array<TileState> = [];
-    public getListTileA(dimension: number): Array<Array<number|string>> | null {
+    protected _listOpenStateA: Array<TileState> = [];
+    protected _listCloseStateA: Array<TileState> = [];
+
+    public getListTileA(dimension: number): Array<Array<number | string>> | null {
         const startState = new TileState(this.state);
         startState.g = 0;
         startState.h = this.getManhattanDistance(startState.state, dimension);
         this._listOpenStateA.push(startState);
-
-        console.log("Start state:");
-        console.log(startState.state);
-
         while (this._listOpenStateA.length !== 0) {
             let minF = this.getStateForMoveWithLeastWeight(this._listOpenStateA, dimension);
             let currentState = minF.state;
@@ -345,11 +352,11 @@ class Game {
             if (this.isEndGame(dimension)) {
                 let solution = this.completeSolutionList(currentState);
                 console.log("Solution");
-                let solutionA: Array<Array<number|string>> = [];
+                let solutionA: Array<Array<number | string>> = [];
                 solution.forEach((item) => {
                     console.log(item.state);
                     // @ts-ignore
-                    solutionA.push(item.state)
+                    solutionA.push(item.state);
                 })
                 return solutionA
             }
@@ -358,34 +365,50 @@ class Game {
             this._listCloseStateA.push(currentState);
 
             let posStates = this.getPossibleStatesForMove(currentState, dimension);
-            posStates.forEach((neighbor) => {
-                if (!this._listCloseStateA.includes(neighbor)) {
+            for (let i = 0; i < posStates.length; i++) {
+                let neighbor = posStates[i];
+                neighbor.h = this.getManhattanDistance(neighbor.state, dimension);
+                let sameInClose = this._listCloseStateA.filter((item) => {
+                    return this.arrayCompare(item.state, neighbor.state);
+                });
+                let sameInOpen = this._listOpenStateA.filter((item) => {
+                    return this.arrayCompare(item.state, neighbor.state);
+                });
+                if (this.isEndGameIDA(dimension, neighbor.state)) {
                     let distance = currentState.g + 1;
-                    let isLightweight = false;
-                    let same = this._listOpenStateA.filter((item) => {
-                        return this.arrayCompare(item.state, neighbor.state);
-                    });
-                    if (same.length === 0) {
-                        neighbor.h = this.getManhattanDistance(neighbor.state, dimension);
-                        this._listOpenStateA.push(neighbor);
-                        isLightweight = true;
-                    } else {
-                        isLightweight = distance < same[0].g;
-                    }
-                    if (isLightweight) {
-                        neighbor.parent = currentState;
-                        neighbor.g = distance;
-                    }
+                    neighbor.parent = currentState;
+                    neighbor.g = distance;
+                    let solution = this.completeSolutionList(neighbor);
+                    console.log("Solution");
+                    let solutionA: Array<Array<number | string>> = [];
+                    solution.forEach((item) => {
+                        console.log(item.state);
+                        // @ts-ignore
+                        solutionA.push(item.state)
+                    })
+                    return solutionA;
                 }
-            });
+                let distance = currentState.g + 1;
+                if (sameInOpen.length !== 0 && distance > sameInOpen[0].g) {
+                    continue;
+                }
+                if (!(sameInClose.length !== 0 && distance > sameInClose[0].g)) {
+                    neighbor.g = distance;
+                    neighbor.parent = currentState;
+                    this._listOpenStateA.push(neighbor);
+                }
+            }
+
         }
         console.log("Closed: ");
         console.log(this._listCloseStateA);
         return null;
-}
-    public solveA(dimension: number): Array<Array<number|string>> | null {
+    }
+
+    public solveA(dimension: number): Array<Array<number | string>> | null {
         return this.getListTileA(dimension);
     }
+
     protected path: Array<Array<Array<number | string>>> = [];
 
     private search(node: TileState, g: number, threshold: number | string, dimension: number): number | string {
@@ -394,13 +417,12 @@ class Game {
             return f;
         }
         if (this.isEndGameIDA(dimension, node.state)) {
-           return 'FOUND';
+            return 'FOUND';
         }
         let min = INFINITY;
 
         let posStates = this.getPossibleStatesForMove(node, dimension);
-        console.log(posStates);
-        for (let i=0; i<posStates.length; i++) {
+        for (let i = 0; i < posStates.length; i++) {
             let neighbor = posStates[i];
             if (!this.isIncludeArray(this.path, neighbor.state)) {
                 let distance = node.g + 1;
@@ -408,15 +430,12 @@ class Game {
                 neighbor.g = distance;
                 neighbor.h = this.getManhattanDistance(neighbor.state, dimension);
                 this.path.push(neighbor.state);
-                console.log(neighbor);
 
                 let temp = this.search(neighbor, g + 1, threshold, dimension);
-                console.log('temp: ' + temp);
-                console.log('min' + min);
-                if(temp === 'FOUND') {
+                if (temp === 'FOUND') {
                     return 'FOUND';
                 }
-                if(temp < min)     {
+                if (temp < min) {
                     // @ts-ignore
                     min = temp;
                 }
@@ -427,7 +446,7 @@ class Game {
     }
 
     // @ts-ignore
-    public solveIDA(dimension: number): Array<Array<Array<number | string>>> | undefined{
+    public solveIDA(dimension: number): Array<Array<Array<number | string>>> | undefined {
         this.path.push(this.arrayClone(this.state));
         const startState = new TileState(this.state);
         startState.g = 0;
@@ -435,16 +454,16 @@ class Game {
         let threshold: number | string = startState.h;
         while (1) {
             let temp = this.search(startState, 0, threshold, dimension);
-            if ( temp === 'FOUND') {
+            if (temp === 'FOUND') {
                 return this.path;
 
             }
-            if(temp ===  INFINITY)                               //Threshold larger than maximum possible f value
+            if (temp === INFINITY)
                 return;
             threshold = temp;
         }
     }
 
-
 }
+
 export default Game;

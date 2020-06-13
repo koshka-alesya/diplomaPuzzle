@@ -23,7 +23,7 @@ function Tile(props: ITileType) {
     const classTile = props.tile === '' ? 'Tile__cactus' : 'Tile__number';
 
     function onClick() {
-        props.updateState(props.clickHandler(props.dimension, props.tile))
+        props.updateState(props.clickHandler(props.dimension, props.tile));
     }
     return (
         <div className="Tile" style={posStyle} onClick={(e) => onClick()}>
