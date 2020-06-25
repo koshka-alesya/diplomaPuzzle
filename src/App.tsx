@@ -24,14 +24,6 @@ class App extends Component<any, IApp> {
 
     render() {
         let gameState;
-        let height = Math.max(
-            document.body.scrollHeight, document.documentElement.scrollHeight,
-            document.body.offsetHeight, document.documentElement.offsetHeight,
-            document.body.clientHeight, document.documentElement.clientHeight
-        );
-        let style = {
-            height: height
-        }
         // @ts-ignore
         if (this.state.isGame && !this.state.isWon) {
             gameState =
@@ -41,7 +33,7 @@ class App extends Component<any, IApp> {
             gameState = <WonPage isWon={this.state.isWon} updateStateApp={this.updateStateApp}/>
         }
         return (
-            <div className="App" style={style}>
+            <div className="App">
                 {gameState}
             </div>
         );
