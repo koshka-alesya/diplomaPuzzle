@@ -16,7 +16,8 @@ interface IGame {
     solveIDA: Function
     bfs: Function
     dimension: number,
-    expanded: boolean
+    expanded: boolean,
+    canMoveTile: Function
 
 
 }
@@ -37,7 +38,8 @@ class PageGame extends Component<any, IGame > {
             solveIDA: game.solveIDA,
             bfs: game.bfs,
             dimension: props.dimension,
-            expanded: true
+            expanded: true,
+            canMoveTile: game.canMoveTile,
         }
     }
     // @ts-ignore
@@ -108,7 +110,7 @@ class PageGame extends Component<any, IGame > {
                         <div className="Fern__title">Fern puzzle</div>
                     </div>
                     <div className="Game__main">
-                        <GameBoard style={styleExpandedGame} dimension={this.state.dimension} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState}/>
+                        <GameBoard style={styleExpandedGame} dimension={this.state.dimension} state={this.state.state} moves={this.state.moves} clickHandler={this.state.moveTile} updateState={this.updateState} canMoveTile={this.state.canMoveTile}/>
                         <GameListState dimension={this.state.dimension} states={this.state.states} />
                     </div>
                     <div className="Game__buttons" style={styleExpandedGame}>

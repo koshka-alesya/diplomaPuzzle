@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import './App.css';
 import WonPage from "./components/WonPage/WonPage";
 import PageGame from "./components/PageGame/PageGame";
+// @ts-ignore
+import sound from  "./sound/main.mp3";
+
+
 interface IApp {
     isGame: boolean
     isWon: boolean
@@ -16,6 +20,13 @@ class App extends Component<any, IApp> {
             isWon: false,
             dimension: 3
         }
+    }
+    componentDidMount() {
+        let audio=document.querySelector("audio");
+        // @ts-ignore
+        audio.play();
+        // @ts-ignore
+        audio.volume=0.2;
     }
 
     updateStateApp(value: any) {
@@ -32,11 +43,9 @@ class App extends Component<any, IApp> {
         else {
             gameState = <WonPage isWon={this.state.isWon} updateStateApp={this.updateStateApp}/>
         }
-        return (
-            <div className="App">
-                {gameState}
-            </div>
-        );
+        return <div className="App">
+            {gameState}
+        </div>;
     }
 }
 

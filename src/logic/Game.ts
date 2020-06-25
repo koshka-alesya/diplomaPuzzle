@@ -15,6 +15,8 @@ class Game {
         this.solveIDA = this.solveIDA.bind(this);
         this.solveDFS = this.solveDFS.bind(this);
         this.bfs = this.bfs.bind(this);
+        this.canMoveTile = this.canMoveTile.bind(this);
+        this.getCoordsTile = this.getCoordsTile.bind(this);
     }
 
     public _finalState3: Array<Array<number | string>> = [
@@ -61,7 +63,7 @@ class Game {
     protected indexYEmpty: number;
 
     // @ts-ignore
-    protected getCoordsTile(dimension: number, tile: number | string): { x: number, y: number } {
+    public getCoordsTile(dimension: number, tile: number | string): { x: number, y: number } {
         for (let i = 0; i < dimension; i++) {
             if (this.state[i].indexOf(tile) !== -1) {
                 return {x: i, y: this.state[i].indexOf(tile)};
@@ -140,7 +142,7 @@ class Game {
         return Math.floor(rand);
     }
 
-    protected canMoveTile(dimension: number, tile: number | string): boolean {
+    public canMoveTile(dimension: number, tile: number | string): boolean {
         const tileCoords = this.getCoordsTile(dimension, tile);
         // если находятся в одной строке и разница 1 или в одном столбце и разница 1
         return (tileCoords.y === this.indexYEmpty && Math.abs(tileCoords.x - this.indexXEmpty) === 1) || (tileCoords.x === this.indexXEmpty && Math.abs(tileCoords.y - this.indexYEmpty) === 1);

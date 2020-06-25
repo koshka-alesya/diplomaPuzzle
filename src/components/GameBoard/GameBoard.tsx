@@ -11,6 +11,7 @@ interface IBoardType {
     clickHandler: Function
     updateState: Function
     style: any
+    canMoveTile: Function
 }
 const options = [
     { value: '3x3', label: '3x3' },
@@ -28,7 +29,7 @@ function GameBoard(props: IBoardType) {
                 <div className="GameBoard__timer__icon"></div>
                 <Timer />
             </div>
-            <Tiles dimension={props.dimension} state={props.state} clickHandler={props.clickHandler} updateState={props.updateState}/>
+            <Tiles dimension={props.dimension} state={props.state} clickHandler={props.clickHandler} updateState={props.updateState} canMoveTile={props.canMoveTile}/>
             <div className="GameBoard__moves">
                 <span className="GameBoard__moves__text">number of moves:</span>
                 <span className="GameBoard__moves__count">{props.moves}</span>

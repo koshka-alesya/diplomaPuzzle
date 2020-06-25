@@ -6,12 +6,13 @@ interface ITilesType {
     state: Array<Array<number | string>>
     clickHandler: Function
     updateState: Function
+    canMoveTile: Function
 }
 function Tiles(props: ITilesType) {
     let tiles = [];
     for (let i=0; i< props.dimension; i++) {
         for (let j=0; j<props.dimension; j++) {
-            tiles.push(<Tile tile={props.state[i][j]} x={i} y={j} clickHandler={props.clickHandler} updateState={props.updateState} dimension={props.dimension}/>)
+            tiles.push(<Tile tile={props.state[i][j]} x={i} y={j} clickHandler={props.clickHandler} updateState={props.updateState} dimension={props.dimension} canMoveTile={props.canMoveTile}/>)
         }
     }
     const dim = props.dimension === 5 ? 50 : 60;

@@ -1,5 +1,9 @@
 import React from 'react';
 import './Tile.css';
+import useSound from 'use-sound';
+
+// @ts-ignore
+import boopSfx from '../../sound/cloth2.mp3';
 interface ITileType {
     tile: number | string
     x: number
@@ -7,6 +11,7 @@ interface ITileType {
     clickHandler: Function
     updateState: Function
     dimension: number
+    canMoveTile: Function
 }
 function Tile(props: ITileType) {
     let length = props.dimension === 5 ? 50 : 60;
@@ -21,9 +26,13 @@ function Tile(props: ITileType) {
 
     };
     const classTile = props.tile === '' ? 'Tile__cactus' : 'Tile__number';
+    const [play] = useSound(boopSfx);
 
     function onClick() {
-        props.updateState(props.clickHandler(props.dimension, props.tile));
+        if (props.canMoveTile(props.dimension, props.tile)) {
+            props.updateState(props.clickHandler(props.dimension, props.tile));
+            play();
+        }
     }
     return (
         <div className="Tile" style={posStyle} onClick={(e) => onClick()}>
