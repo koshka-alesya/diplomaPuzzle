@@ -5,8 +5,6 @@ import Game from '../../logic/Game';
 import GameBoard from "../GameBoard/GameBoard";
 import GameListState from "../GameListState/GameListState";
 import Button from "../Button/Button";
-import Test from "../Test/Test";
-import Tile from "../Tile/Tile";
 interface IGame {
     states: Array<Array<Array<number | string>>>
     state: Array<Array<number | string>>
@@ -16,6 +14,7 @@ interface IGame {
     game: any
     solveA: Function
     solveIDA: Function
+    bfs: Function
     dimension: number,
     expanded: boolean
 
@@ -36,6 +35,7 @@ class PageGame extends Component<any, IGame > {
             endGame: game.endGame,
             solveA: game.solveA,
             solveIDA: game.solveIDA,
+            bfs: game.bfs,
             dimension: props.dimension,
             expanded: true
         }
@@ -64,6 +64,11 @@ class PageGame extends Component<any, IGame > {
         let statesIDA = this.state.solveIDA(this.state.dimension);
         this.animationSolve(statesIDA);
         // this.setState({states: statesIDA, moves: statesIDA.length - 1, state: statesIDA[statesIDA.length -1], expanded: false});
+    }
+    onClickBFS() {
+       let statesBFS = this.state.bfs(this.state.dimension);
+        this.animationSolve(statesBFS);
+       // this.setState({states: statesBFS, moves: statesBFS.length - 1, state: statesBFS[statesBFS.length -1], expanded: false});
     }
     onBackHome() {
         this.props.updateStateApp({isWon: false, isGame: false});
@@ -113,7 +118,6 @@ class PageGame extends Component<any, IGame > {
                         <div className="Game__button" onClick={(e) => this.onClickIDA()}>
                             <Button caption={'Solve IDA'}/>
                         </div>
-                        <Test />
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Game from '../../logic/Game';
 function Test() {
+    let fail = 0;
     function testA(): number{
         const game  = new Game(5);
         const state = game.getState();
@@ -20,13 +21,27 @@ function Test() {
         console.log(solveStates);
         return end - start;
     }
+    function testBFS(): number{
+        const game  = new Game(4);
+        const state = game.getState();
+        const start = new Date().getTime();
+        const solve = game.bfs(4);
+        const end = new Date().getTime();
+        console.log(solve);
+        if (solve === 'fail') {
+            fail++;
+        }
+        return end - start;
+    }
     // @ts-ignore
     function getTimeAlgorithms(alg: string) {
         let time;
         if (alg === 'A') {
             time = testA();
-        } else {
+        } else if (alg === 'IDA') {
             time = testIDA();
+        } else {
+            time = testBFS();
         }
         return time;
     }
@@ -34,9 +49,12 @@ function Test() {
         let min = getTimeAlgorithms(alg);
         let max = min;
         let count = min;
-        for (let i = 1; i< 10; i++) {
+        let timeC = 0;
+        for (let i = 1; i< 100; i++) {
             let time = getTimeAlgorithms(alg);
             console.log(time);
+            timeC++;
+            console.log(timeC)
             if (time > max) {
                 max = time;
             }
@@ -45,16 +63,20 @@ function Test() {
             }
             count += time;
         }
-        console.log('Среднее время: ' + count / 10 + 'ms');
+        console.log('Среднее время: ' + count / 100 + 'ms');
         console.log('Мин. время: ' + min + 'ms');
         console.log('Макс. время: ' + max + 'ms');
+        console.log(fail);
     }
     return (
-        <div>
+        <div >
             <div onClick={(e) => mainTest('A')}>
                 test
             </div>
             <div onClick={(e) => mainTest('IDA')}>
+                test2
+            </div>
+            <div onClick={(e) => mainTest('BFS')}>
                 test2
             </div>
         </div>

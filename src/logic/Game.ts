@@ -1,5 +1,6 @@
 // @ts-ignore
 import {TileState} from "./TileState";
+import {start} from "repl";
 
 const INFINITY = Number.MAX_SAFE_INTEGER;
 
@@ -12,6 +13,8 @@ class Game {
         this.endGame = false;
         this.solveA = this.solveA.bind(this);
         this.solveIDA = this.solveIDA.bind(this);
+        this.solveDFS = this.solveDFS.bind(this);
+        this.bfs = this.bfs.bind(this);
     }
 
     public _finalState3: Array<Array<number | string>> = [
@@ -81,7 +84,7 @@ class Game {
         this.indexXEmpty = emptyCoords.x;
         this.indexYEmpty = emptyCoords.y;
         // будем рандомно перемещать элементы итоговой доски
-        let i = 30;
+        let i = 20;
         while (i > 0) {
             let iniState = this.arrayClone(this.state);
             this.state = this.moveTileInMatrix(this.state, dimension, this.randomInteger(1, dimension * dimension - 1));
@@ -463,7 +466,82 @@ class Game {
             threshold = temp;
         }
     }
+    public solveDFS(dimension: number): void {
+       let startNode = new TileState(this.state);
+       startNode.g = 0;
+       let result = this.dfs(startNode, dimension);
+       console.log(result);
+    }
+    protected visitedList: Array<Array<Array<number | string>>> = [];
+    private dfs(node: TileState, dimension: number): string | undefined {
+        let sameInOpen = this.visitedList.filter((item) => {
+            return this.arrayCompare(item, node.state);
+        });
+        if (sameInOpen.length !== 0) {
+            return;
+        }
+        this.visitedList.push(node.state);
+        if (this.isEndGameIDA(dimension, node.state)) {
+            return 'Found';
+        }
+        let posStates = this.getPossibleStatesForMove(node, dimension);
+        for (let i = 0; i < posStates.length; i++) {
+            let neighbor = new TileState(posStates[i].state);
+            neighbor.parent = node;
+            neighbor.g = node.g++;
+            this.dfs(neighbor, dimension);
+        }
+    }
 
+    protected frontiers: Array<TileState> = [];
+    protected visited: Array<Array<Array<string | number>>> = [];
+    public bfs(dimension: number): void | any {
+        const start = new Date().getTime();
+        let end = new Date().getTime();
+        let startState = new TileState(this.state);
+        startState.g = 0;
+        this.frontiers.push(startState);
+        this.visited.push(this.state);
+        while(this.frontiers.length !== 0) {
+            end = new Date().getTime();
+            if (end - start > 20000){
+                return 'fail';
+            }
+            // @ts-ignore
+            let currentState = this.frontiers.shift();
+            // @ts-ignore
+            if (this.isEndGameIDA(dimension, currentState.state)) {
+                // @ts-ignore
+                let solution = this.completeSolutionList(currentState);
+                console.log("Solution");
+                let solutionA: Array<Array<number | string>> = [];
+                solution.forEach((item) => {
+                    console.log(item.state);
+                    // @ts-ignore
+                    solutionA.push(item.state)
+                })
+                return solutionA;
+            }
+            // @ts-ignore
+            let posStates = this.getPossibleStatesForMove(currentState, dimension);
+            for (let i = 0; i < posStates.length; i++) {
+                let same = this.visited.filter((item) => {
+                    return this.arrayCompare(item, posStates[i].state);
+                });
+                if (same.length === 0) {
+                    let neighbor = new TileState(posStates[i].state);
+                    // @ts-ignore
+                    neighbor.parent = currentState;
+                    // @ts-ignore
+                    neighbor.g = currentState.g++;
+                    this.frontiers.push(neighbor);
+                    this.visited.push(neighbor.state);
+                }
+
+            }
+        }
+        return null;
+    }
 }
 
 export default Game;
