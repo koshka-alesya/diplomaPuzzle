@@ -24,7 +24,7 @@ interface IGame {
 class PageGame extends Component<any, IGame > {
     constructor(props: any) {
         super(props);
-        const game = new  Game(props.dimension);
+        const game = new Game(props.dimension, props.difficulty);
         this.updateState = this.updateState.bind(this);
         this.onClickA = this.onClickA.bind(this);
         this.state = {

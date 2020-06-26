@@ -5,9 +5,9 @@ import {start} from "repl";
 const INFINITY = Number.MAX_SAFE_INTEGER;
 
 class Game {
-    constructor(dimension: number) {
+    constructor(dimension: number, difficulty: number = 0) {
         this.states = [];
-        this.createInitialTile(dimension);
+        this.createInitialTile(dimension, difficulty);
         this.moveTile = this.moveTile.bind(this);
         this.moveTileInGame = this.moveTileInGame.bind(this);
         this.endGame = false;
@@ -80,12 +80,101 @@ class Game {
         }
     }
 
-    protected createInitialTile(dimension: number): void {
+    private getRandomInt(max: number): number {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    private hasSolve(state: any[], check: any[], dimension: number) {
+        let stateTile = new TileState(state);
+        let emptyCoords = this.getCoordsTileInState(stateTile, dimension, '');
+        this.indexXEmpty = emptyCoords.x;
+        this.indexYEmpty = emptyCoords.y;
+        // если четная размерность
+        let count = 0;
+        console.log(check);
+
+        for (let i = 0; i < dimension * dimension; i++) {
+            let tile = check[i];
+            if (tile !== '') {
+                for (let j = i; j < dimension * dimension; j++) {
+                    if (check[j] !== '' && check[j] < tile) {
+                        count++;
+                    }
+                }
+            }
+        }
+        if (dimension % 2 === 0) {
+            count += emptyCoords.x + 1;
+        }
+        console.log(count);
+        return count % 2 === 0;
+    }
+
+    protected createInitialTile(dimension: number, difficulty: number): void {
         this.state = dimension === 3 ? this.arrayClone(this._finalState3) : (dimension === 4 ? this.arrayClone(this._finalState4) : this.arrayClone(this._finalState5));
         const emptyCoords = this.getCoordsTile(dimension, '');
         this.indexXEmpty = emptyCoords.x;
         this.indexYEmpty = emptyCoords.y;
-        // будем рандомно перемещать элементы итоговой доски
+
+        let minMax3=[[10, 15], [15, 20], [20, 30]];
+        let minMax4=[[10, 15], [15, 20], [20, 25]];
+        let minMax5=[[10, 15], [15, 25], [25, 30]];
+        let minMaxWeight = [[], [], [], minMax3, minMax4, minMax5];
+
+        if (difficulty < 3) {
+            // будем рандомно перемещать элементы итоговой доски
+            let h = 0;
+            while (h < minMaxWeight[dimension][difficulty][0] || h > minMaxWeight[dimension][difficulty][1] ) {
+                let iniState = this.arrayClone(this.state);
+                this.state = this.moveTileInMatrix(this.state, dimension, this.randomInteger(1, dimension * dimension - 1));
+                if (!this.arrayCompare(iniState, this.state)) {
+                   h = this.getManhattanDistance(this.state, dimension);
+                }
+            }
+            console.log('diff:');
+            console.log(h);
+        } else {
+           /* let finish = [[], [], [], [1, 2, 3, 4, 5, 6, 7, 8, ''], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ''],
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, '']];
+            let weight = 0;
+            while (weight <= minMaxWeight[dimension][difficulty][0] || weight > minMaxWeight[dimension][difficulty][1]) {
+                let randomArr = [...finish[dimension]];
+
+                let j = 0;
+                let state = [];
+                let stateForCheck = [];
+                while (j < dimension) {
+                    let i = 0;
+                    let arr = [];
+                    while (i < dimension){
+                        let randomIndex = this.getRandomInt(randomArr.length)
+                        arr.push(randomArr[randomIndex]);
+                        stateForCheck.push(randomArr[randomIndex]);
+                        randomArr.splice(randomIndex, 1);
+                        i++;
+                    }
+                    state.push(arr);
+                    j++;
+                }
+                if (this.hasSolve(state, stateForCheck, dimension)) {
+                    console.log('solve!:')
+                    console.log(state);
+                    this.state = state;
+                    let h = this.getManhattanDistance(this.state, dimension);
+                    weight = h;
+                    console.log(h);
+                } else {
+                    console.log ('no solve');
+                }
+            }*/
+        }
+
+
+        this.moves = 0;
+        this.states = [];
+        this.states.push(this.arrayClone(this.state));
+
+      /*  // будем рандомно перемещать элементы итоговой доски
         let i = 20;
         while (i > 0) {
             let iniState = this.arrayClone(this.state);
@@ -94,11 +183,17 @@ class Game {
                 i--;
             }
         }
+        const difficultyWeight = [10, 15, 20];
+        let weight = difficultyWeight[difficulty];
+        let states = this.solveIDA(dimension);
+        console.log(states);
         this.moves = 0;
         this.states = [];
 
-        this.states.push(this.arrayClone(this.state));
+        this.states.push(this.arrayClone(this.state));*/
     }
+
+
 
     protected arrayClone(obj: any[]): any[] {
         const res: any[] = [];
@@ -327,6 +422,19 @@ class Game {
         }
         return {state: states[min], minIndex: min, minWeight: minWeight};
     }
+    // получаем состояние с наибольшим весом для составления первой пятнашки
+    private getStateForMoveWithMaxWeight(states: Array<TileState>, dimension: number): TileState  {
+        let max: number = 0;
+        let maxWeight = states[0].h;
+        for (let i = 1; i < states.length; i++) {
+            let weightState = states[i].h;
+            if (weightState > maxWeight) {
+                maxWeight = weightState;
+                max = i;
+            }
+        }
+        return states[max];
+    }
 
     private completeSolutionList(completeState: TileState): TileState[] {
         let resList: TileState[] = [];
@@ -449,6 +557,7 @@ class Game {
         }
         return min;
     }
+
 
     // @ts-ignore
     public solveIDA(dimension: number): Array<Array<Array<number | string>>> | undefined {

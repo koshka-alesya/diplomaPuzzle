@@ -10,7 +10,7 @@
     flex-wrap: nowrap;
     white-space: nowrap;
     box-sizing: border-box;
-    width: 220px;
+    width: 280px;
     height: 60px;
     cursor: pointer;
 }
@@ -23,7 +23,7 @@
     color: #FF449E;
     font-size: 25px;
     position: relative;
-    width: 220px;
+    width: 280px;
 }
 .DropDown__menu {
     border-radius: 10px;
@@ -56,4 +56,7 @@
 }
 .DropDown__menu__item__title {
     padding-left: 10px;
+}
+.DropDown_difficulty {
+    padding-left: 20px;
 }

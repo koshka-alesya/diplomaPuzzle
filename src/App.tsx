@@ -8,6 +8,7 @@ interface IApp {
     isGame: boolean
     isWon: boolean
     dimension: number
+    difficulty: number
 }
 class App extends Component<any, IApp> {
     constructor(props: any) {
@@ -16,7 +17,8 @@ class App extends Component<any, IApp> {
         this.state = {
             isGame: false,
             isWon: false,
-            dimension: 3
+            dimension: 3,
+            difficulty: 0
         }
     }
 
@@ -29,7 +31,7 @@ class App extends Component<any, IApp> {
         // @ts-ignore
         if (this.state.isGame && !this.state.isWon) {
             gameState =
-               <PageGame dimension={this.state.dimension} updateStateApp={this.updateStateApp} />
+               <PageGame dimension={this.state.dimension} updateStateApp={this.updateStateApp} difficulty={this.state.difficulty} />
         }
         else {
             gameState = <WonPage isWon={this.state.isWon} updateStateApp={this.updateStateApp}/>

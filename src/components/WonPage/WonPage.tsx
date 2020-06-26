@@ -8,6 +8,7 @@ import Radium, {StyleRoot} from 'radium';
 import './WonPage.css';
 import Button from "../Button/Button";
 import Dropdown from "../Dropdown/Dropdown";
+import DropdownDifficulty from "../DropdownComplexity/Dropdown"
 
 
 
@@ -33,23 +34,29 @@ interface IWonPage {
 interface IPageState {
     dimension: number
     isWon: boolean
-    updateStateApp: Function
+    updateStateApp: Function,
+    difficulty: number
 }
 class WonPage extends Component<IWonPage, Readonly<IPageState>> {
     constructor(props: any) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeDifficulty = this.handleChangeDifficulty.bind(this);
         this.state = {
             dimension: 3,
             isWon: this.props.isWon,
-            updateStateApp: this.props.updateStateApp
+            updateStateApp: this.props.updateStateApp,
+            difficulty: 0
         }
     }
     handleChange = (value: number) => {
         this.setState({dimension: value})
     };
+    handleChangeDifficulty = (value: number) => {
+        this.setState({difficulty: value})
+    };
     onClick() {
-        this.props.updateStateApp({isGame: true, isWon: false, dimension: this.state.dimension});
+        this.props.updateStateApp({isGame: true, isWon: false, dimension: this.state.dimension, difficulty: this.state.difficulty});
     }
     render() {
         let title = this.props.isWon ? 'You won!' : 'Start game';
@@ -67,7 +74,10 @@ class WonPage extends Component<IWonPage, Readonly<IPageState>> {
                             <div className="test" style={styles.tada}>
                                 <div className="WonPage__title">{title}</div>
                             </div>
-                            <Dropdown handleChange={this.handleChange}/>
+                            <div className="dropdowns">
+                                <Dropdown handleChange={this.handleChange}/>
+                                <DropdownDifficulty handleChangeDifficulty={this.handleChangeDifficulty}/>
+                            </div>
                             <div className="WonPage__button" onClick={(e) => this.onClick()}>
                                 <Button caption={'Play'}/>
                             </div>
