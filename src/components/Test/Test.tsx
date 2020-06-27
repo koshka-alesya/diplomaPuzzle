@@ -3,17 +3,17 @@ import Game from '../../logic/Game';
 function Test() {
     let fail = 0;
     function testA(): number{
-        const game  = new Game(5);
+        const game  = new Game(3, 0);
         const state = game.getState();
         console.log(state);
         const start = new Date().getTime();
-        const solveStates = game.solveA(5);
+        const solveStates = game.solveA(3);
         const end = new Date().getTime();
         console.log(solveStates);
         return end - start;
     }
     function testIDA(): number{
-        const game  = new Game(5);
+        const game  = new Game(5, 2);
         const state = game.getState();
         const start = new Date().getTime();
         const solveStates = game.solveIDA(5);
@@ -22,10 +22,10 @@ function Test() {
         return end - start;
     }
     function testBFS(): number{
-        const game  = new Game(4);
+        const game  = new Game(5, 1);
         const state = game.getState();
         const start = new Date().getTime();
-        const solve = game.bfs(4);
+        const solve = game.bfs(5);
         const end = new Date().getTime();
         console.log(solve);
         if (solve === 'fail') {
@@ -69,7 +69,7 @@ function Test() {
         console.log(fail);
     }
     return (
-        <div >
+        <div className="Test">
             <div onClick={(e) => mainTest('A')}>
                 test
             </div>

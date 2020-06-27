@@ -173,24 +173,6 @@ class Game {
         this.moves = 0;
         this.states = [];
         this.states.push(this.arrayClone(this.state));
-
-      /*  // будем рандомно перемещать элементы итоговой доски
-        let i = 20;
-        while (i > 0) {
-            let iniState = this.arrayClone(this.state);
-            this.state = this.moveTileInMatrix(this.state, dimension, this.randomInteger(1, dimension * dimension - 1));
-            if (!this.arrayCompare(iniState, this.state)) {
-                i--;
-            }
-        }
-        const difficultyWeight = [10, 15, 20];
-        let weight = difficultyWeight[difficulty];
-        let states = this.solveIDA(dimension);
-        console.log(states);
-        this.moves = 0;
-        this.states = [];
-
-        this.states.push(this.arrayClone(this.state));*/
     }
 
 
